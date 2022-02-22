@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="ac">AC</string>
+    <string name="plusminus">+/-</string>
+    <string name="percent">%</string>
+    <string name="screen">96875</string>
+    <string name="eight">888888888888888888888888</string>
+</resources>
