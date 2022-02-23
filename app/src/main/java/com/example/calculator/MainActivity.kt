@@ -87,13 +87,7 @@ class MainActivity : AppCompatActivity() {
             text=text.replaceFirst(perf,ans.toBigDecimal().toPlainString())
         }
         nonNumCheckable(true)
-
-        if(text.toDouble()==floor(text.toDouble())){
-            isDotUsed=false
-            text=text.substringBefore('.')
-        }else{
-            isDotUsed=true
-        }
+        text=removeZeroFraction(text)
         binding.screen.text=text.replace('.',',')
     }
 
@@ -107,12 +101,18 @@ class MainActivity : AppCompatActivity() {
         binding.buttonAns.callOnClick()
         var text=binding.screen.text.toString().replace(",",".")
         text=(text.toDouble()/100).toBigDecimal().toPlainString()
-        if(text.toDouble()==floor(text.toDouble())){
+        text=removeZeroFraction(text)
+        binding.screen.text=text.replace('.',',')
+    }
+
+    private fun removeZeroFraction(text:String) : String{
+        var s=text
+        if(s.toDouble()==floor(s.toDouble())){
             isDotUsed=false
-            text=text.substringBefore('.')
+            s=s.substringBefore('.')
         }else{
             isDotUsed=true
         }
-        binding.screen.text=text.replace('.',',')
+        return s
     }
 }
