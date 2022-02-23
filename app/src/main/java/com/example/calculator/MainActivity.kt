@@ -59,15 +59,9 @@ class MainActivity : AppCompatActivity() {
         isDotUsed=false
     }
 
-    fun changeSign(view: View){
-        val newText=binding.screen.text.toString()+"X(-1)"
-        binding.screen.text=newText
-        isDotUsed=false
-    }
-
     fun calculate(view: View){
-        val multOrDiv=Regex("""((\d+(\.\d+)?)|(\(-\d+(\.\d+)?\)))[X÷]((\d+(\.\d+)?)|(\(-\d+(\.\d+)?\)))""")
-        val plusOrMin=Regex("""((\d+(\.\d+)?)|(\(-\d+(\.\d+)?\)))[+−]((\d+(\.\d+)?)|(\(-\d+(\.\d+)?\)))""")
+        val multOrDiv=Regex("""((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))[X÷]((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))""")
+        val plusOrMin=Regex("""((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))[+−]((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))""")
         var text=binding.screen.text.toString().replace(",",".")
         var performance:String
         var perf:String
@@ -93,6 +87,7 @@ class MainActivity : AppCompatActivity() {
             text=text.replaceFirst(perf,ans.toBigDecimal().toPlainString())
         }
         nonNumCheckable(true)
+
         if(text.toDouble()==floor(text.toDouble())){
             isDotUsed=false
             text=text.substringBefore('.')
@@ -101,11 +96,17 @@ class MainActivity : AppCompatActivity() {
         }
         binding.screen.text=text.replace('.',',')
     }
+
+    fun changeSign(view: View){
+        val newText=binding.screen.text.toString()+"X(-1)"
+        binding.screen.text=newText
+        binding.buttonAns.callOnClick()
+    }
+
     fun toPercent(view: View){
         binding.buttonAns.callOnClick()
         var text=binding.screen.text.toString().replace(",",".")
-        text=(text.toDouble()*100).toBigDecimal().toPlainString()
-        Toast.makeText(this,text,Toast.LENGTH_LONG).show()
+        text=(text.toDouble()/100).toBigDecimal().toPlainString()
         if(text.toDouble()==floor(text.toDouble())){
             isDotUsed=false
             text=text.substringBefore('.')
