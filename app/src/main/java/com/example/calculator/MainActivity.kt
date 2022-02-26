@@ -71,8 +71,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculate() {
-        val multOrDiv=Regex("""((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))[X÷]((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))""")
-        val plusOrMin=Regex("""((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))[+−]((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))""")
+        val regexNum=Regex("""((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))""")
+        val multOrDiv=Regex("""$regexNum[X÷]$regexNum""")
+        val plusOrMin=Regex("""$regexNum[+−]$regexNum""")
         var text=binding.screen.text.toString().replace(",",".").replace("(","").replace(")","")
         var expression:String
         var ans:Double
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             }
             text=text.replaceFirst(expression,ans.toBigDecimal().toPlainString())
         }
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
         nonNumCheckable(true)
         text=removeZeroFraction(text)
         binding.screen.text=text.replace('.',',')
@@ -118,14 +120,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun removeZeroFraction(text:String) : String{
-        var s=text
-        if(s.toDouble()==floor(s.toDouble())){
-            isDotUsed=false
-            s=s.substringBefore('.')
-        }else{
-            isDotUsed=true
+        if(text.toDouble()==floor(text.toDouble())) {
+            isDotUsed = false
+            return text.substringBefore('.')
         }
-        return s
+        isDotUsed=true
+        return text
     }
     private fun divisionByZero(){
         binding.screen.text="0"
