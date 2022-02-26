@@ -1,9 +1,8 @@
 package com.example.calculator
 
-import android.annotation.SuppressLint
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.example.calculator.databinding.ActivityMainBinding
@@ -11,12 +10,53 @@ import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    var isDotUsed=false
+    private var isDotUsed=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
+
+        for(id in binding.numButtons.referencedIds) {
+            val button=findViewById<Button>(id)
+            button.setOnClickListener { addToScreen(button) }
+        }
+        for(id in binding.signButtons.referencedIds) {
+            val button=findViewById<Button>(id)
+            button.setOnClickListener{ addSignToScreen(button)}
+        }
+        binding.buttonDot.setOnClickListener { addDotToScreen() }
+        binding.buttonAC.setOnClickListener { clearScreen() }
+        binding.buttonAns.setOnClickListener { calculate() }
+        binding.buttonPlMin.setOnClickListener { changeSign() }
+        binding.buttonPercent.setOnClickListener { toPercent() }
+    }
+
+    private fun addToScreen(button: Button){
+        val newText=binding.screen.text.toString()+button.text.toString()
+        binding.screen.text = newText
+        nonNumCheckable(true)
+    }
+
+    private fun addSignToScreen(button: Button){
+        val newText=binding.screen.text.toString()+button.text.toString()
+        binding.screen.text = newText
+        nonNumCheckable(false)
+        isDotUsed=false
+    }
+
+    private fun addDotToScreen() {
+        if (!isDotUsed) {
+            val newText = binding.screen.text.toString() + ","
+            binding.screen.text = newText
+            nonNumCheckable(false)
+            isDotUsed = true
+        }
+    }
+
+    private fun clearScreen(){
+        binding.screen.text = ""
+        nonNumCheckable(false)
+        isDotUsed=false
     }
 
     private fun nonNumCheckable(b:Boolean){
@@ -30,74 +70,46 @@ class MainActivity : AppCompatActivity() {
         binding.buttonPlMin.isClickable=b
     }
 
-    fun addToScreen(view: View){
-        val newText=binding.screen.text.toString()+(view as Button).text.toString()
-        binding.screen.text = newText
-        nonNumCheckable(true)
-    }
-
-    fun addDotToScreen(view: View) {
-        if (!isDotUsed) {
-            val newText = binding.screen.text.toString() + ","
-            binding.screen.text = newText
-            nonNumCheckable(false)
-            isDotUsed = true
-        }
-    }
-
-    fun addSignToScreen(view: View){
-        val newText=binding.screen.text.toString()+(view as Button).text.toString()
-        binding.screen.text = newText
-        nonNumCheckable(false)
-        isDotUsed=false
-    }
-
-
-    fun clearScreen(view: View){
-        binding.screen.text = ""
-        nonNumCheckable(false)
-        isDotUsed=false
-    }
-
-    fun calculate(view: View){
+    private fun calculate() {
         val multOrDiv=Regex("""((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))[X÷]((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))""")
         val plusOrMin=Regex("""((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))[+−]((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))""")
-        var text=binding.screen.text.toString().replace(",",".")
-        var performance:String
-        var perf:String
+        var text=binding.screen.text.toString().replace(",",".").replace("(","").replace(")","")
+        var expression:String
         var ans:Double
         while (text.contains(multOrDiv)){
-            performance= multOrDiv.find(text,0)!!.value
-            perf=performance.replace("(","").replace(")","")
-            ans = if(perf.contains('÷')){
-                perf.substringBefore('÷').toDouble()/perf.substringAfter('÷').toDouble()
+            expression= multOrDiv.find(text,0)!!.value
+            ans = if(expression.contains('÷')){
+                if(expression.substringAfter('÷').toDouble()==0.0){
+                    divisionByZero()
+                    return
+                }
+                expression.substringBefore('÷').toDouble()/expression.substringAfter('÷').toDouble()
             }else{
-                perf.substringBefore('X').toDouble()*perf.substringAfter('X').toDouble()
+                expression.substringBefore('X').toDouble()*expression.substringAfter('X').toDouble()
             }
-            text=text.replaceFirst(performance,ans.toBigDecimal().toPlainString())
+            text=text.replaceFirst(expression,ans.toBigDecimal().toPlainString())
         }
         while (text.contains(plusOrMin)){
-            performance= plusOrMin.find(text,0)!!.value
-            perf=performance.replace("(","").replace(")","")
-            ans = if(perf.contains('+')){
-                perf.substringBefore('+').toDouble()+perf.substringAfter('+').toDouble()
+            expression= plusOrMin.find(text,0)!!.value
+            ans = if(expression.contains('+')){
+                expression.substringBefore('+').toDouble()+expression.substringAfter('+').toDouble()
             }else{
-                perf.substringBefore('−').toDouble()-perf.substringAfter('−').toDouble()
+                expression.substringBefore('−').toDouble()-expression.substringAfter('−').toDouble()
             }
-            text=text.replaceFirst(perf,ans.toBigDecimal().toPlainString())
+            text=text.replaceFirst(expression,ans.toBigDecimal().toPlainString())
         }
         nonNumCheckable(true)
         text=removeZeroFraction(text)
         binding.screen.text=text.replace('.',',')
     }
 
-    fun changeSign(view: View){
+    private fun changeSign(){
         val newText=binding.screen.text.toString()+"X(-1)"
         binding.screen.text=newText
-        binding.buttonAns.callOnClick()
+        calculate()
     }
 
-    fun toPercent(view: View){
+    private fun toPercent(){
         binding.buttonAns.callOnClick()
         var text=binding.screen.text.toString().replace(",",".")
         text=(text.toDouble()/100).toBigDecimal().toPlainString()
@@ -114,5 +126,11 @@ class MainActivity : AppCompatActivity() {
             isDotUsed=true
         }
         return s
+    }
+    private fun divisionByZero(){
+        binding.screen.text="0"
+        isDotUsed=false
+        nonNumCheckable(true)
+        Toast.makeText(this,"Division by zero is prohibited!",Toast.LENGTH_LONG).show()
     }
 }
