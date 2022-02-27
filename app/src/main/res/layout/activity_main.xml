@@ -23,7 +23,7 @@
         android:alpha="0.2"
         android:ellipsize="none"
         android:fontFamily="@font/digitalnumstype1"
-        android:gravity="center|left"
+        android:gravity="center|start"
         android:singleLine="true"
         android:text="@string/eight"
         android:textSize="30sp"
@@ -40,7 +40,7 @@
         android:layout_marginEnd="10dp"
         android:ellipsize="marquee"
         android:fontFamily="@font/digitalnumstype1"
-        android:gravity="center|left"
+        android:gravity="center|start"
         android:singleLine="true"
         android:text="@string/screen"
         android:textSize="30sp"
@@ -82,7 +82,7 @@
     <Button
         android:id="@+id/buttonDivide"
         style="@style/blueButton"
-        android:text="÷"
+        android:text="@string/obelus"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH4"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineV5"
@@ -103,7 +103,7 @@
     <Button
         android:id="@+id/button7"
         style="@style/whiteButton"
-        android:text="7"
+        android:text="@string/_7"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH6"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV2"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
@@ -112,7 +112,7 @@
     <Button
         android:id="@+id/button8"
         style="@style/whiteButton"
-        android:text="8"
+        android:text="@string/_8"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH6"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV3"
         app:layout_constraintStart_toStartOf="@+id/guidelineV2"
@@ -121,7 +121,7 @@
     <Button
         android:id="@+id/button9"
         style="@style/whiteButton"
-        android:text="9"
+        android:text="@string/_9"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH6"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV5"
         app:layout_constraintStart_toStartOf="@+id/guidelineV3"
@@ -130,7 +130,7 @@
     <Button
         android:id="@+id/buttonMult"
         style="@style/blueButton"
-        android:text="X"
+        android:text="@string/multiplication"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH6"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineV5"
@@ -139,7 +139,7 @@
     <Button
         android:id="@+id/button4"
         style="@style/whiteButton"
-        android:text="4"
+        android:text="@string/_4"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH8"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV2"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
@@ -148,7 +148,7 @@
     <Button
         android:id="@+id/button5"
         style="@style/whiteButton"
-        android:text="5"
+        android:text="@string/_5"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH8"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV3"
         app:layout_constraintStart_toStartOf="@+id/guidelineV2"
@@ -157,7 +157,7 @@
     <Button
         android:id="@+id/button6"
         style="@style/whiteButton"
-        android:text="6"
+        android:text="@string/_6"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH8"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV5"
         app:layout_constraintStart_toStartOf="@+id/guidelineV3"
@@ -166,7 +166,7 @@
     <Button
         android:id="@+id/buttonMinus"
         style="@style/blueButton"
-        android:text="−"
+        android:text="@string/minus"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH8"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineV5"
@@ -175,7 +175,7 @@
     <Button
         android:id="@+id/button1"
         style="@style/whiteButton"
-        android:text="1"
+        android:text="@string/_1"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH10"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV2"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
@@ -184,7 +184,7 @@
     <Button
         android:id="@+id/button2"
         style="@style/whiteButton"
-        android:text="2"
+        android:text="@string/_2"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH10"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV3"
         app:layout_constraintStart_toStartOf="@+id/guidelineV2"
@@ -193,7 +193,7 @@
     <Button
         android:id="@+id/button3"
         style="@style/whiteButton"
-        android:text="3"
+        android:text="@string/_3"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH10"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV5"
         app:layout_constraintStart_toStartOf="@+id/guidelineV3"
@@ -202,7 +202,7 @@
     <Button
         android:id="@+id/buttonPlus"
         style="@style/blueButton"
-        android:text="+"
+        android:text="@string/plus"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH10"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineV5"
@@ -211,7 +211,7 @@
     <Button
         android:id="@+id/button0"
         style="@style/whiteButton"
-        android:text="0"
+        android:text="@string/_0"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH12"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV3"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
@@ -220,7 +220,7 @@
     <Button
         android:id="@+id/buttonDot"
         style="@style/whiteButton"
-        android:text=","
+        android:text="@string/dot"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH12"
         app:layout_constraintEnd_toStartOf="@+id/guidelineV5"
         app:layout_constraintStart_toStartOf="@+id/guidelineV3"
@@ -229,8 +229,7 @@
     <Button
         android:id="@+id/buttonAns"
         style="@style/blueButton"
-        android:background="@drawable/button"
-        android:text="="
+        android:text="@string/equals"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH12"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineV5"
