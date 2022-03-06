@@ -4,13 +4,12 @@ package com.example.calculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import com.example.calculator.databinding.ActivityMainBinding
-import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var isDotUsed=false
+    private val calc=Calculations()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
@@ -71,38 +70,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculate() {
-        val regexNum=Regex("""((-?\d+(\.\d+)?)|(\(-?\d+(\.\d+)?\)))""")
-        val multOrDiv=Regex("""$regexNum[X÷]$regexNum""")
-        val plusOrMin=Regex("""$regexNum[+−]$regexNum""")
-        var text=binding.screen.text.toString().replace(",",".").replace("(","").replace(")","")
-        var expression:String
-        var ans:Double
-        while (text.contains(multOrDiv)){
-            expression= multOrDiv.find(text,0)!!.value
-            ans = if(expression.contains('÷')){
-                if(expression.substringAfter('÷').toDouble()==0.0){
-                    divisionByZero()
-                    return
-                }
-                expression.substringBefore('÷').toDouble()/expression.substringAfter('÷').toDouble()
-            }else{
-                expression.substringBefore('X').toDouble()*expression.substringAfter('X').toDouble()
-            }
-            text=text.replaceFirst(expression,ans.toBigDecimal().toPlainString())
-        }
-        while (text.contains(plusOrMin)){
-            expression= plusOrMin.find(text,0)!!.value
-            ans = if(expression.contains('+')){
-                expression.substringBefore('+').toDouble()+expression.substringAfter('+').toDouble()
-            }else{
-                expression.substringBefore('−').toDouble()-expression.substringAfter('−').toDouble()
-            }
-            text=text.replaceFirst(expression,ans.toBigDecimal().toPlainString())
-        }
-        Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
         nonNumCheckable(true)
-        text=removeZeroFraction(text)
-        binding.screen.text=text.replace('.',',')
+        val text=calc.calculate(binding.screen.text.toString())
+        binding.screen.text=text
+        isDotUsed=',' in text
     }
 
     private fun changeSign(){
@@ -112,25 +83,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toPercent(){
-        binding.buttonAns.callOnClick()
-        var text=binding.screen.text.toString().replace(",",".")
-        text=(text.toDouble()/100).toBigDecimal().toPlainString()
-        text=removeZeroFraction(text)
-        binding.screen.text=text.replace('.',',')
+        calculate()
+        val newText=binding.screen.text.toString()+"÷100"
+        binding.screen.text=newText
+        calculate()
     }
 
-    private fun removeZeroFraction(text:String) : String{
-        if(text.toDouble()==floor(text.toDouble())) {
-            isDotUsed = false
-            return text.substringBefore('.')
-        }
-        isDotUsed=true
-        return text
-    }
-    private fun divisionByZero(){
-        binding.screen.text="0"
-        isDotUsed=false
-        nonNumCheckable(true)
-        Toast.makeText(this,"Division by zero is prohibited!",Toast.LENGTH_LONG).show()
-    }
+
 }

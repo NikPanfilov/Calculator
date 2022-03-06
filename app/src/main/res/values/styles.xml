@@ -11,9 +11,10 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:maxLines">1</item>
+        <item name="android:layout_marginEnd">8dp</item>
     </style>
     <style name="whiteButton" parent="Button">
-        <item name="android:layout_marginEnd">8dp</item>
+
         <item name="backgroundTint">#F1F3F6</item>
         <item name="android:textColor">#3A4E89</item>
 
