@@ -4,7 +4,9 @@ package com.example.calculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import com.example.calculator.databinding.ActivityMainBinding
+import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -72,6 +74,8 @@ class MainActivity : AppCompatActivity() {
     private fun calculate() {
         nonNumCheckable(true)
         val text=calc.calculate(binding.screen.text.toString())
+        Toast.makeText(this, text,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, floor(text.replace(',','.').toDouble()).toString(),Toast.LENGTH_SHORT).show()
         binding.screen.text=text
         isDotUsed=',' in text
     }
